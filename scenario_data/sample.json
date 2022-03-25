@@ -1,0 +1,22 @@
+{
+  "title": "Welcome to Market!",
+  "description": "상점에서 상인과 대화하는법을 연습한다",
+  "npc_name": "Denny",
+  "script": [
+    {
+      "npc": "Hello boy. Welcome to market! #|# What do you want to Buy?",
+      "answer": ["I want to buy a pencil", "A Pencil"],
+      "npc_error": "Hmm.. is that really what you wanna buy?",
+      "hint": ["##아, 우리 연필을 사야해!", "'Pencil 을 사고싶어요' 라고 말해봐.", "I want to buy a pencil."]
+    },
+    {
+      "npc": "Good choice boy! #|# Here it is, Pencil.",
+      "answer": ["How much is it?"],
+      "npc_error": "Haha. You need to pay for it.",
+      "hint": ["##아, 얼마인지 물어볼까?", "How much ~", "How much is it?"]
+    },
+    {
+      "npc": "Thank you. Please come back later!"
+    }
+  ]
+}
