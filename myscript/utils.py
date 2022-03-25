@@ -23,11 +23,8 @@ def blob_to_np(blob):
 
 
 def cosine_similarity(a, b):
-    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-6) 
 
         
- 
-
 if __name__ == "__main__":
     files_from = ['scenario/sample.json']
-    setup_scenario(files_from)

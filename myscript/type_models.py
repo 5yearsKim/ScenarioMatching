@@ -18,9 +18,15 @@ class ScriptIn(BaseModel):
     trial: int = 0
     answer: str
 
+class SentenceScore(BaseModel):
+    compare: str
+    sentence: str
+    score: Optional[float]
+
 class ScriptOut(BaseModel):
     is_success: bool = False
-    answer: str
+    turn_idx: int
+    npc: str
+    last_answer: Optional[SentenceScore]
     hint: Optional[str]
-    npc: Optional[str]
     is_end: bool = False

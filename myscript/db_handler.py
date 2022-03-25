@@ -34,6 +34,7 @@ class DBHandler:
         values(?)
         on conflict do nothing
         '''
+        utterance = utterance.strip()
         cur = self.conn.cursor()
         cur.execute(sql, (utterance,))
         self.conn.commit()
@@ -52,11 +53,26 @@ class DBHandler:
         data = list(map(convert_return, data))
         return data
 
+    def get_vectorized_by_sentence(self, sentences):
+        def convert_return(data):
+            return Sentence(id=data[0], sentence=data[1], vector=data[2])
+        sentences = list(map(lambda x: x.strip(), sentences))
+        arg = str(tuple(sentences)).replace(',)', ')')
+        sql = f'''
+        select utterance.id, sentence, vector from utterance
+        join vector on utterance.id = vector.id
+        where vector is not null and sentence in {arg}
+        '''
+        cur = self.conn.cursor()
+        cur.execute(sql)
+        data = cur.fetchall()
+        data = list(map(convert_return, data))
+        return data
+
     def set_vector(self, id, vector):
         sql = '''
         insert or replace into vector(id, vector)
         values(?, ?)
-        on conflict do nothing
         '''
         cur = self.conn.cursor()
         cur.execute(sql, (id, vector))

@@ -9,3 +9,6 @@ wandb/
 data/*
 !data/*.py
 ckpts/
+
+
+*.db
