@@ -12,12 +12,6 @@ class ScriptInfo(BaseModel):
     npc_name: str
     npc: str
 
-class ScriptIn(BaseModel):
-    script_id: str
-    turn_idx: int = 0
-    trial: int = 0
-    answer: str
-
 class SentenceScore(BaseModel):
     compare: str
     sentence: str
@@ -30,3 +24,4 @@ class ScriptOut(BaseModel):
     last_answer: Optional[SentenceScore]
     hint: Optional[str]
     is_end: bool = False
+

@@ -1,7 +1,7 @@
 from .db_handler import DBHandler
 from .vectorizer import Vectorizer
 from .utils import read_scenario, batching_list, np_to_blob, blob_to_np, cosine_similarity
-from .type_models import ScriptIn, ScriptOut, ScriptInfo, Sentence, SentenceScore
+from .type_models import ScriptOut, ScriptInfo, Sentence, SentenceScore
 
 class Scripter:
     def __init__(self, script_map, db_path='vector.db'):

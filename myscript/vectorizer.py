@@ -10,8 +10,8 @@ class PseudoModel:
 
 class Vectorizer:
     def __init__(self):
-        # self.model = SentenceTransformer('all-MiniLM-L6-v2')
-        self.model = PseudoModel()
+        self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        # self.model = PseudoModel()
 
     def vectorize(self, sentences):
         vectors = self.model.encode(sentences, convert_to_tensor=True)
