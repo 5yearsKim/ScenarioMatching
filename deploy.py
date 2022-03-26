@@ -4,8 +4,19 @@ from pydantic import BaseModel
 from grammerlib import grammer_check
 from myscript import Scripter
 from config import *
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 scripter = Scripter(SCENARIO_MAP)
 
 @app.get("/")

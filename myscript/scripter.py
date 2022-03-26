@@ -8,6 +8,7 @@ class Scripter:
         self.script_map = script_map
         self.dh = DBHandler(db_path)
         self.vectorizer = Vectorizer()
+        # self.setup_script()
 
     
     def setup_script(self):
