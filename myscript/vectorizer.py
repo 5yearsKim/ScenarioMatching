@@ -10,8 +10,8 @@ class PseudoModel:
         return torch.randn((len(sentences), 10))
 
 class Vectorizer:
-    def __init__(self, model='custom'):
-        self.type= type
+    def __init__(self, model_type='SentenceTransformer'):
+        self.model_type= model_type
         if type == 'SentenceTransformer':
             self.model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
         else:
