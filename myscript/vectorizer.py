@@ -12,7 +12,7 @@ class PseudoModel:
 class Vectorizer:
     def __init__(self, model_type='SentenceTransformer'):
         self.model_type= model_type
-        if type == 'SentenceTransformer':
+        if model_type == 'SentenceTransformer':
             self.model = SentenceTransformer('multi-qa-MiniLM-L6-cos-v1')
         else:
             self.model = CustomModel(pretrained_path='ckpts/distil-v1') 
