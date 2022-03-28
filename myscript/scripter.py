@@ -3,6 +3,7 @@ from .db_handler import DBHandler
 from .utils import read_scenario, batching_list, np_to_blob, blob_to_np, cosine_similarity, edit_score
 from .type_models import ScriptOut, ScriptInfo, Sentence, SentenceScore
 from .scorer import Scorer
+import math
 
 class Scripter:
     def __init__(self, script_map, db_path='vector.db', score_mode='direct'):
@@ -83,6 +84,20 @@ class Scripter:
             return False, None
 
     def score_answer_direct(self, answer, candidates, combine_score=False, add_rule=True):
+        def score_with_rule(answer, cand, ai_score):
+            if answer.lower().strip() == cand.lower().strip():
+                return 1.0
+            rule_score = edit_score(answer, cand, n=2)
+
+            min_len = min(len(answer.split()), len(cand.split()))
+
+            score = 0.8 * ai_score + 0.8 * ai_score * rule_score 
+
+            score = round(min(0.9 + 0.1 * ai_score, score), 3)
+
+            entropy_penalty = 1 + 1 * math.exp( - 0.5 * min_len)
+            score = 1 - (1 - score) / entropy_penalty
+            return score
         ans_list = [answer for _ in range(len(candidates))]
         sim_scores, relations = self.scorer.score_sentence(ans_list, candidates)
         holder = []
@@ -93,13 +108,7 @@ class Scripter:
                 elif relation == 'entailment':
                     score = score + 0.1
             if add_rule:
-                if answer.lower().strip() == cand.lower().strip():
-                    score = 1.
-                else:
-                    ai_score = score
-                    rule_score = edit_score(answer, cand, n=2)
-                    score = 0.8 * ai_score + 0.5 * ai_score * rule_score
-                    score = round(min(0.9 + 0.1 * ai_score, score), 3)
+                score = score_with_rule(answer, cand, score)
             sent_score = SentenceScore(compare=answer, sentence=cand, score=score, relation=relation)
             holder.append(sent_score)
         return holder
