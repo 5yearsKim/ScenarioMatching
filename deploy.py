@@ -23,7 +23,7 @@ scripter = Scripter(SCENARIO_MAP)
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/check_grammer/")
+@app.get("/check_grammer")
 async def check_grammer(sentence: str):
     matches = grammer_check(sentence)
     return matches
