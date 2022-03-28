@@ -1,7 +1,7 @@
 import json
 from types import SimpleNamespace
 import numpy as np
-from nltk import edit_distance
+import nltk
 
 def read_scenario(scenario_file):
     with open(scenario_file, 'r') as fr:
@@ -26,10 +26,16 @@ def blob_to_np(blob):
 def cosine_similarity(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-6) 
 
+lemmatizer = nltk.stem.WordNetLemmatizer()
+def lemmatize_sentence(sent):
+    words = sent.split()
+    words = list(map(lambda w: lemmatizer.lemmatize(w), words))
+    return ' '.join(words)
+
 def edit_score(s1, s2, n=1):
-    s1, s2 = s1.lower().split(), s2.lower().split()
+    s1, s2 = lemmatize_sentence(s1.lower()), lemmatize_sentence(s2.lower().split())
     len_max = max(len(s1), len(s2))
-    score = 1. - edit_distance(s1, s2) / len_max
+    score = 1. - nltk.edit_distance(s1, s2) / len_max
     score = pow(score, n)
     return score
 

@@ -1,12 +1,26 @@
 # from myscript.scorer import Scorer
 
 # scorer = Scorer(load_path='ckpts/mtbert93.pt')
-from nltk import edit_distance
+import nltk
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+lemmatizer = nltk.stem.WordNetLemmatizer()
 
-def score_rule( s1, s2):
-    s1, s2 = s1.lower().split(), s2.lower().split()
-    len_max = max(len(s1), len(s2))
-    return 1. - edit_distance(s1, s2) / len_max
+sentences1 = ['I was a big man',
+             'what is the price?',
+             'The new movie is awesome',
+             'I don\'t eat apple',
+             'I likes school',
+             ]
+
+def lemmantize_sentence(sent):
+    words = sent.split()
+    words = list(map(lambda w: lemmatizer.lemmatize(w), words))
+    return ' '.join(words)
+
+for sent in sentences1:
+    print(lemmantize_sentence(sent))
+
 
 # Two lists of sentences
 sentences1 = ['I was a big man',
@@ -23,8 +37,5 @@ sentences2 = ['I was a big man in the past',
               'I hate school',
              ]
 
-for s1, s2 in zip(sentences1, sentences2):
-    dist = score_rule(s1, s2)
-    print(dist)
 # score, categories = scorer.score_sentence(sentences1, sentences2)
 # print(score, categories)
