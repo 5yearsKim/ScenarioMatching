@@ -33,7 +33,7 @@ def lemmatize_sentence(sent):
     return ' '.join(words)
 
 def edit_score(s1, s2, n=1):
-    s1, s2 = lemmatize_sentence(s1.lower()), lemmatize_sentence(s2.lower().split())
+    s1, s2 = lemmatize_sentence(s1.lower()), lemmatize_sentence(s2.lower())
     len_max = max(len(s1), len(s2))
     score = 1. - nltk.edit_distance(s1, s2) / len_max
     score = pow(score, n)
