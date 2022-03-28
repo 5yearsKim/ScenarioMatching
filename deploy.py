@@ -39,7 +39,7 @@ class ScoreIn(BaseModel):
 
 @app.post("/score_answer")
 async def score_answer(body: ScoreIn):
-    scores = scripter.score_answer(body.answer, body.candidates)
+    scores = scripter.score_answer_direct(body.answer, body.candidates)
     return scores
 
 

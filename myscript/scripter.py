@@ -1,15 +1,16 @@
 from .db_handler import DBHandler
-from .vectorizer import Vectorizer
+# from .vectorizer import Vectorizer
 from .utils import read_scenario, batching_list, np_to_blob, blob_to_np, cosine_similarity
 from .type_models import ScriptOut, ScriptInfo, Sentence, SentenceScore
+from .scorer import Scorer
 
 class Scripter:
-    def __init__(self, script_map, db_path='vector.db'):
+    def __init__(self, script_map, db_path='vector.db', score_mode='direct'):
         self.script_map = script_map
         self.dh = DBHandler(db_path)
-        self.vectorizer = Vectorizer()
+        # self.vectorizer = Vectorizer()
         # self.setup_script()
-
+        self.scorer = Scorer(load_path='ckpts/mtbert.pt')
     
     def setup_script(self):
         ''' add answer sentence to db '''
@@ -74,14 +75,28 @@ class Scripter:
 
 
     def check_answer(self, answer, candidates, threshold=0.8):
-        scored = self.score_answer(answer, candidates)
+        scored = self.score_answer_direct(answer, candidates, combine_score=True)
         picked_ans = max(scored, key=lambda x: x.score)
         if picked_ans.score > threshold:
             return True, picked_ans
         else:
             return False, None
 
-    def score_answer(self, answer, candidates):
+    def score_answer_direct(self, answer, candidates, combine_score=False):
+        ans_list = [answer for _ in range(len(candidates))]
+        sim_scores, relations = self.scorer.score_sentence(ans_list, candidates)
+        holder = []
+        for cand, score, relation in zip(candidates, sim_scores, relations):
+            if combine_score:
+                if relation == 'contradiction':
+                    score = score / 2
+                elif relation == 'entailment':
+                    score = score + 0.1
+            sent_score = SentenceScore(compare=answer, sentence=cand, score=score, relation=relation)
+            holder.append(sent_score)
+        return holder
+
+    def score_answer_from_vector(self, answer, candidates):
         candidates = list(map(lambda x: x.strip(), candidates))
         ans_v = self.vectorizer([answer])[0].numpy()
         cached_candidate = self.dh.get_vectorized_by_sentence(candidates)
@@ -102,6 +117,7 @@ class Scripter:
             sent_score = SentenceScore(compare=answer, sentence=cand.sentence, score=score)
             holder.append(sent_score)
         return holder
-            
+    
+    
 
 

@@ -16,6 +16,7 @@ class SentenceScore(BaseModel):
     compare: str
     sentence: str
     score: Optional[float]
+    relation: Optional[str] 
 
 class ScriptOut(BaseModel):
     is_success: bool = False

@@ -1,3 +1,4 @@
+from concurrent.futures import process
 from glob import glob
 import csv
 
@@ -5,25 +6,34 @@ def process_sts_sem():
     files_from = glob('data/original/semeval-sts/**/*.tsv', recursive=True)
     print(files_from)
     cnt = 0
+    prev_sent = 'I feel good today'
     with open('data/processed/sts_eval.csv', 'w') as fw:
         writer = csv.writer(fw)
         for file_path in files_from:
             print(file_path)
             with open(file_path, 'r') as fr:
                 reader = csv.reader(fr, delimiter='\t' )
-                for line in reader:
+                for i, line in enumerate(reader):
                     try:
                         cnt += 1
                         data = [f'sts{cnt}', line[1], line[2], float(line[0])]
                         writer.writerow(data)
+
+                        if i % 4 == 0:
+                            data = [f'aug-{cnt}', line[1], line[1], 5.0]
+                            writer.writerow(data)
+                            data = [f'aug-{cnt}', line[1], prev_sent, 0.0]
+                            writer.writerow(data)
+                            prev_sent = line[1]
+
                     except:
                         print(line)
 
 def process_sts_benchmark():
-    files_from = glob('data/original/stsbenchmark/**/*.csv', recursive=True)
+    # files_from = glob('data/original/stsbenchmark/**/*.csv', recursive=True)
+    files_from = ['data/original/stsbenchmark/sts-dev.csv']
     print(files_from)
-    cnt = 0
-    with open('data/processed/sts_bn.csv', 'w') as fw:
+    with open('data/processed/val_sts_bn.csv', 'w') as fw:
         writer = csv.writer(fw)
         for file_path in files_from:
             print(file_path)
@@ -47,12 +57,12 @@ def process_snli():
             with open(file_path, 'r') as fr:
                 for json_str in fr:
                     data = json.loads(json_str)
-                    if 'contradiction' in data['annotator_labels']:
-                        cnt += 1
-                        line = [f'snli{cnt}', data['sentence1'], data['sentence2'], 0.0]
-                        writer.writerow(line)
+                    line = [f'snli-{cnt}', data['sentence1'], data['sentence2'], tuple(data['annotator_labels'])]
+                    cnt += 1
+                    writer.writerow(line)
 
-def generate():
+
+def generate_random():
     import random
     noun = ['apple', 'grape', 'school', 'korea', 'sentence', 'game', 'fighting', 'tree', 'flower', 'book', 'studying',
     'example', 'girl', 'body']
@@ -79,7 +89,12 @@ def generate():
         writer = csv.writer(fr)
         for item in holder:
             sent1, sent2, score = item.split('|')
-            writer.writerow(['-', sent1, sent2, score])
+            if float(score) > 2.5:
+                label = ['entailment']
+            else: 
+                label = ['contradiction']
+
+            writer.writerow(['generated', sent1, sent2, tuple(label)])
 
 def combine_and_shuffle():
     import random
@@ -99,4 +114,4 @@ def combine_and_shuffle():
 
 
 if __name__ == '__main__':
-    combine_and_shuffle()
+    process_sts_sem()
