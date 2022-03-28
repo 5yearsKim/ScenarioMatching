@@ -93,11 +93,13 @@ class Scripter:
                 elif relation == 'entailment':
                     score = score + 0.1
             if add_rule:
-                rule_score = edit_score(answer, cand, n=2)
-                if rule_score > 0.95: # edge case handling
-                    rule_score = 100 
-                score = 0.8 * score + 0.6 * score * rule_score
-                score = round(min(1.0, score), 3)
+                if answer.lower().strip() == cand.lower().strip():
+                    score = 1.
+                else:
+                    ai_score = score
+                    rule_score = edit_score(answer, cand, n=2)
+                    score = 0.8 * ai_score + 0.5 * ai_score * rule_score
+                    score = round(min(0.9 + 0.1 * ai_score, score), 3)
             sent_score = SentenceScore(compare=answer, sentence=cand, score=score, relation=relation)
             holder.append(sent_score)
         return holder
