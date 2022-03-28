@@ -1,6 +1,6 @@
 from .db_handler import DBHandler
 # from .vectorizer import Vectorizer
-from .utils import read_scenario, batching_list, np_to_blob, blob_to_np, cosine_similarity
+from .utils import read_scenario, batching_list, np_to_blob, blob_to_np, cosine_similarity, edit_score
 from .type_models import ScriptOut, ScriptInfo, Sentence, SentenceScore
 from .scorer import Scorer
 
@@ -82,7 +82,7 @@ class Scripter:
         else:
             return False, None
 
-    def score_answer_direct(self, answer, candidates, combine_score=False):
+    def score_answer_direct(self, answer, candidates, combine_score=False, add_rule=True):
         ans_list = [answer for _ in range(len(candidates))]
         sim_scores, relations = self.scorer.score_sentence(ans_list, candidates)
         holder = []
@@ -92,9 +92,17 @@ class Scripter:
                     score = score / 2
                 elif relation == 'entailment':
                     score = score + 0.1
+            if add_rule:
+                rule_score = edit_score(answer, cand, n=2)
+                if rule_score > 0.95: # edge case handling
+                    rule_score = 100 
+                score = 0.8 * score + 0.6 * score * rule_score
+                score = round(min(1.0, score), 3)
             sent_score = SentenceScore(compare=answer, sentence=cand, score=score, relation=relation)
             holder.append(sent_score)
         return holder
+
+
 
     def score_answer_from_vector(self, answer, candidates):
         candidates = list(map(lambda x: x.strip(), candidates))
