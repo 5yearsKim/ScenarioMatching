@@ -10,5 +10,6 @@ data/*
 !data/*.py
 ckpts/
 
-
+test_tf.py
+test_scenario.py
 *.db
