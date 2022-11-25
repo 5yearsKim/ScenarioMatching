@@ -1,0 +1,24 @@
+@import './Variables/Global.scss';
+
+.under-nav {
+  padding-top: $navHeight;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.center-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+
+
+@media (max-width: $md-break) {
+  .under-nav {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  
+}

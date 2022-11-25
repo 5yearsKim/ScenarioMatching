@@ -1,8 +1,8 @@
 import language_tool_python
 from pydantic import BaseModel
 
-# tool = language_tool_python.LanguageToolPublicAPI('en-US') 
-tool = language_tool_python.LanguageTool('en-US') 
+tool = language_tool_python.LanguageToolPublicAPI('en-US') 
+# tool = language_tool_python.LanguageTool('en-US') 
 
 class Correction(BaseModel):
     ruleId: str 

@@ -1,0 +1,49 @@
+@import './Variables/Global.scss';
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: $navHeight;
+  background-color: $navColor;
+  // box-shadow: 0 4px 2px black; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    color: white;
+    font-weight: 500;
+    font-size: 30px;
+    margin-left: 60px;
+    font-family: $logoFont; 
+    text-decoration: none;
+    &:hover {
+      cursor: pointer
+    }
+  }
+
+  .links {
+    margin-right: 50px;
+    a {
+      font-size: 20px;
+      margin: 5px;
+      color: white;
+      font-family: $navFont;
+      text-decoration: none;
+      padding: 5px;
+      border-radius: 5px;
+      &:hover {
+        background-color: rgba(255,255,255,0.1);
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media (max-width: $md-break) {
+  .navbar .logo {
+    margin-left: 10px;
+  }
+  
+}

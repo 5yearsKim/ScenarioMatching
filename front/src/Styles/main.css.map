@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAEA,AAAA,UAAU,CAAC;EACT,WAAW,ECID,IAAI;EDHd,WAAW,EAAE,KAAK;EAClB,YAAY,EAAE,KAAK;CACpB;;AAED,AAAA,WAAW,CAAC;EACV,OAAO,EAAE,IAAI;EACb,cAAc,EAAE,MAAM;EACtB,WAAW,EAAE,MAAM;CAEpB;;AAID,MAAM,EAAE,SAAS,EAAE,KAAK;EACtB,AAAA,UAAU,CAAC;IACT,WAAW,EAAE,GAAG;IAChB,YAAY,EAAE,GAAG;GAClB",
+    "sources": [
+        "../Sass/main.scss",
+        "../Sass/Variables/Global.scss"
+    ],
+    "names": [],
+    "file": "main.css"
+}

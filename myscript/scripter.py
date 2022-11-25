@@ -95,7 +95,7 @@ class Scripter:
 
             score = round(min(0.9 + 0.1 * ai_score, score), 3)
 
-            entropy_penalty = 1 + 1 * math.exp( - 0.5 * min_len)
+            entropy_penalty = 1 + 0.5 * math.exp( - 0.5 * min_len)
             score = 1 - (1 - score) / entropy_penalty
             return score
         ans_list = [answer for _ in range(len(candidates))]

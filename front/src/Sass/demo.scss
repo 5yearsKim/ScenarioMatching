@@ -1,0 +1,139 @@
+
+$max-width: 1000px;
+
+.input-container {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 200px 1fr 200px 1fr;
+  grid-gap: 10px;
+  max-width: $max-width;
+  // justify-items: center;
+  .label {
+    justify-self: center;
+    grid-row: 1/4;
+    align-self: center;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .user-input{
+    grid-row: 1/4;
+    align-self: center;
+  }
+  .answer-input {
+  }
+  .submit{
+    margin-top: 30px;
+    grid-column: 1/5;
+    justify-self: center;
+  }
+}
+.reset-container {
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+}
+
+.semantic-container {
+  margin: 30px;
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr 1fr;
+  grid-gap: 10px;
+  max-width: $max-width;
+
+  .label {
+    justify-self: center;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .heat {
+    padding: 5px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+  }
+  .note-box {
+    margin-top: 30px;
+    color: #555555;
+  }
+}
+
+.grammer-container {
+  strong {
+    color: red;
+  }
+  .thick {
+    font-weight: 600;
+  }
+  .highlight {
+    font-size: 25px ;
+  }
+  .highlight-box {
+    margin: 10px;
+    margin-left: 0px;
+  }
+  .explain-container {
+    .check-mark {
+      display: inline-block;
+      margin: 10px;
+      margin-left: 0px;
+    }
+    .wrong {
+      color: red;
+      font-weight: 600;
+    }
+    .right {
+      color: #000088;
+      font-weight: 600;
+    }
+    .explain {
+      color: #555555;
+    }
+  }
+}
+
+.description { 
+  font-weight: 600;
+  font-size: 25;
+  color: gray;
+}
+
+.script-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 100px;
+  .noti-box {
+    margin: 10px;
+    padding: 20px;
+    min-width: 200px;
+    max-width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff7aa;
+    border-radius: 20px;
+    overflow-x: scroll;
+
+  }
+  .empty-box {
+    width: 50px;
+  }
+  .chat-box {
+    flex: 1;
+    max-width: 500px;
+    .npc-box {
+      font-size: 16px
+    }
+    .hint-box {
+      margin: 5px;
+      span {
+        font-weight: 700;
+      }
+      display: flex;
+      justify-content: flex-end;
+    }
+    .input-box {
+      display: flex;
+      align-items: flex-end;
+    }
+  }
+}
